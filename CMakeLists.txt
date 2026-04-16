@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Nom et version de ton projet
-project(CardGameRaytracer VERSION 1.0 LANGUAGES CXX)
+project(Plantasia VERSION 1.0 LANGUAGES CXX)
 
 # On impose un standard C++ moderne (C++20 est idéal pour avoir un code propre)
 set(CMAKE_CXX_STANDARD 20)
@@ -33,6 +33,7 @@ FetchContent_MakeAvailable(SDL3)
 set(SOURCES
     src/main.cpp
     src/core/Application.cpp
+    src/core/Card.cpp
 )
 
 # Création de l'exécutable
