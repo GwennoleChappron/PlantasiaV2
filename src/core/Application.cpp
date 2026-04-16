@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Application.hpp"
+#include "Card.hpp"
 #include "getError.hpp"
 
 Application::Application (const std::string& title, int width, int height, Uint64 flags) {
@@ -11,16 +12,13 @@ Application::Application (const std::string& title, int width, int height, Uint6
 
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
-    card = {
-        (float) w / 2.0f - 20.0f,
-        (float) h / 2.0f - 30.0f,
-        40.0f,
-        60.0f,
-    };
+    myCard = new card((float) w / 2.0f - 20.0f, (float) h / 2.0f - 30.0f, 40.0f, 60.0f);
+
     isRunning = true;
 }
 
 Application::~Application(){
+    if (myCard) delete myCard;
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
     SDL_Quit();
@@ -51,8 +49,7 @@ void Application::render() {
     SDL_RenderClear(renderer);
 
     // Draw card
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderFillRect(renderer, &card);
+    myCard->render(renderer);
 
     SDL_RenderPresent(renderer);
 }

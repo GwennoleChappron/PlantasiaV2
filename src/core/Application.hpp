@@ -2,6 +2,8 @@
 #include <SDL3/SDL.h>
 #include <string>
 
+struct card;
+
 struct Application {
 
     Application (const std::string& title, int width, int height, Uint64 flags);
@@ -20,5 +22,5 @@ struct Application {
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool isRunning = false;
-    SDL_FRect card;
+    card* myCard = nullptr;
 };
