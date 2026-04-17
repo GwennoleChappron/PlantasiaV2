@@ -23,31 +23,24 @@ L'architecture s'inspire des moteurs de jeux 2D modernes et repose sur plusieurs
 
 ### 📂 Arborescence du Projet
 
-\`\`\`
+### 📂 Arborescence du Projet
 
-text
-src/
-├── main.cpp                  # Point d'entrée de l'application
-│
-├── core/                     # LE MOTEUR GRAPHIQUE (Technique)
-│   ├── Application.hpp/.cpp  # Boucle principale, gestion du temps (FPS) et de la fenêtre
-│   ├── InputManager.hpp      # Gestion centralisée de la souris et du Drag & Drop
-│   └── ResourceManager.hpp   # Usine à textures (Flyweight) et gestion de la mémoire vidéo
-│
-├── data/                     # LA LOGIQUE MÉTIER (Données)
-│   ├── PlantProfile.hpp      # Propriétés intrinsèques d'une plante (Nom, besoins)
-│   └── UserProfile.hpp       # État du joueur (Inventaire, deck, progression)
-│
-├── views/                    # LES ÉCRANS (Metteurs en scène)
-│   ├── ViewManager.hpp       # Machine à états pour naviguer entre les écrans
-│   ├── BalconyView.hpp       # Logique spatiale et alertes d'environnement
-│   ├── CalendarView.hpp      # Timeline et planification
-│   └── CodexView.hpp         # Interface encyclopédique
-│
-└── ui/                       # LES ACTEURS INTERACTIFS (Composants visuels)
-    ├── Card.hpp/.cpp         # Élément visuel réactif (survol, clic, apparence)
-    └── DropZone.hpp/.cpp     # Réceptacles logiques (pots, cases du calendrier)
-    
-\`\`\`
+* **`src/`**
+  * `main.cpp` : Point d'entrée de l'application.
+  * **`core/`** *(LE MOTEUR GRAPHIQUE - Technique)*
+    * `Application.hpp/.cpp` : Boucle principale, gestion du temps (FPS) et de la fenêtre.
+    * `InputManager.hpp` : Gestion centralisée de la souris et du Drag & Drop.
+    * `ResourceManager.hpp` : Usine à textures (Flyweight) et gestion de la mémoire vidéo.
+  * **`data/`** *(LA LOGIQUE MÉTIER - Données)*
+    * `PlantProfile.hpp` : Propriétés intrinsèques d'une plante (Nom, besoins).
+    * `UserProfile.hpp` : État du joueur (Inventaire, deck, progression).
+  * **`views/`** *(LES ÉCRANS - Metteurs en scène)*
+    * `ViewManager.hpp` : Machine à états pour naviguer entre les écrans.
+    * `BalconyView.hpp` : Logique spatiale et alertes d'environnement.
+    * `CalendarView.hpp` : Timeline et planification.
+    * `CodexView.hpp` : Interface encyclopédique.
+  * **`ui/`** *(LES ACTEURS INTERACTIFS - Composants visuels)*
+    * `Card.hpp/.cpp` : Élément visuel réactif (survol, clic, apparence).
+    * `DropZone.hpp/.cpp` : Réceptacles logiques (pots, cases du calendrier).
 
 ## 🚀 Compilation & Lancement
