@@ -23,7 +23,9 @@ L'architecture s'inspire des moteurs de jeux 2D modernes et repose sur plusieurs
 
 ### 📂 Arborescence du Projet
 
-\`\`\`text
+\`\`\`
+
+text
 src/
 ├── main.cpp                  # Point d'entrée de l'application
 │
@@ -45,6 +47,7 @@ src/
 └── ui/                       # LES ACTEURS INTERACTIFS (Composants visuels)
     ├── Card.hpp/.cpp         # Élément visuel réactif (survol, clic, apparence)
     └── DropZone.hpp/.cpp     # Réceptacles logiques (pots, cases du calendrier)
+    
 \`\`\`
 
 ## 🚀 Compilation & Lancement
