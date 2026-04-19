@@ -35,6 +35,7 @@ set(SOURCES
     src/core/Application.cpp
     src/core/InputManager.cpp
     src/core/ResourceManager.cpp
+    src/views/BalconyView.cpp
     src/ui/Card.cpp
 )
 

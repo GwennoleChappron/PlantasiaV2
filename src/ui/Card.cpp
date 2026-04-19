@@ -21,10 +21,15 @@ void card::render(SDL_Renderer* renderer, SDL_Texture* cardTemplate){
 }
 
 
-void card::checkHover (float mouseX, float mouseY) {
+bool card::containsPoint (float mouseX, float mouseY) {
     if (mouseX > rect.x && mouseX < rect.x + rect.w && mouseY > rect.y && mouseY < rect.y + rect.h) {
-        isHovered = true;
+        return true;
     } else {
-        isHovered = false;
+        return false;
     }
+}
+
+void card::setPosition(float x, float y) {
+    rect.x = x;
+    rect.y = y;
 }

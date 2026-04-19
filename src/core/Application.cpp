@@ -17,13 +17,12 @@ Application::Application (const std::string& title, int width, int height, Uint6
     SDL_GetWindowSize(window, &w, &h);
     float cardX = (float)w / 2.0f - 20.0f;
     float cardY = (float)h / 2.0f - 30.0f;
-    myCard = new card(cardX, cardY);  
-    resourceManager.createCardTemplate(renderer, myCard->getWidth(), myCard->getHeight());
+    balconyView.createHand(5, (float)w, (float)h - 100.0f);
+    resourceManager.createCardTemplate(renderer, balconyView.getWidth(), balconyView.getHeight());
     isRunning = true;
 }
 
 Application::~Application(){
-    if (myCard) delete myCard;
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
     SDL_Quit();
@@ -37,7 +36,7 @@ void Application::run(){
         }
         float mouseX, mouseY;
         inputManager.getMousePosition(mouseX, mouseY);
-        myCard->checkHover(mouseX, mouseY);
+        balconyView.update(inputManager.getLeftClickState(), mouseX, mouseY);
         update();
         render();
     }
@@ -50,6 +49,6 @@ void Application::update(){
 void Application::render() {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
-    myCard->render(renderer, resourceManager.getCardTemplate());
+    balconyView.render(renderer, resourceManager.getCardTemplate());
     SDL_RenderPresent(renderer);
 }

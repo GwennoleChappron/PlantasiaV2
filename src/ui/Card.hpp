@@ -9,7 +9,11 @@ struct card{
     float getWidth(){return w;};
     float getHeight(){return h;};
 
-    void checkHover(float mouseX, float mouseY);
+    bool containsPoint(float mouseX, float mouseY);
+    void setPosition(float x, float y);
+    void setHover(bool state) { isHovered = state; };
+    float getPositionX() { return rect.x; };
+    float getPositionY() { return rect.y; };
 
     private:
     // card immutable properties

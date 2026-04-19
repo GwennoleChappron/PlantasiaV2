@@ -3,6 +3,7 @@
 #include <string>
 #include "InputManager.hpp"
 #include "ResourceManager.hpp"
+#include "../views/BalconyView.hpp"
 
 struct card;
 
@@ -19,11 +20,11 @@ struct Application {
     private:
     InputManager inputManager;
     ResourceManager resourceManager;
+    BalconyView balconyView;
     void update ();
     void render ();
 
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool isRunning = false;
-    card* myCard = nullptr;
 };

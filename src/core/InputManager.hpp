@@ -8,8 +8,10 @@ public:
         x = mouseX;
         y = mouseY;
     }
+    bool getLeftClickState() const { return isLeftMouseDown; }
 private:
     bool quitRequested = false;
+    bool isLeftMouseDown = false;
     float mouseX = 0.0f;
     float mouseY = 0.0f;
 };

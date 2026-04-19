@@ -11,6 +11,16 @@ bool InputManager::update() {
                 mouseX = (float)event.motion.x;
                 mouseY = (float)event.motion.y;
                 break;
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    isLeftMouseDown = true;
+                }
+                break;
+            case SDL_EVENT_MOUSE_BUTTON_UP:
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    isLeftMouseDown = false;
+                }
+                break;
         }
     }
     return quitRequested; // Plus élégant que if(quitRequested) return true;
