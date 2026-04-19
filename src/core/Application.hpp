@@ -23,4 +23,7 @@ struct Application {
     SDL_Renderer* renderer = nullptr;
     bool isRunning = false;
     card* myCard = nullptr;
+
+    SDL_Texture* cardTemplate = nullptr;
+    void initCardTemplate();
 };

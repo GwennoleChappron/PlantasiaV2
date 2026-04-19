@@ -12,13 +12,17 @@ Application::Application (const std::string& title, int width, int height, Uint6
 
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
-    myCard = new card((float) w / 2.0f - 20.0f, (float) h / 2.0f - 30.0f, 40.0f, 60.0f);
+    float cardX = (float)w / 2.0f - 20.0f;
+    float cardY = (float)h / 2.0f - 30.0f;
+    myCard = new card(cardX, cardY);
+    initCardTemplate();    
 
     isRunning = true;
 }
 
 Application::~Application(){
     if (myCard) delete myCard;
+    if (cardTemplate) SDL_DestroyTexture(cardTemplate);
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
     SDL_Quit();
@@ -36,7 +40,14 @@ void Application::run(){
 void Application::handleEvent(){
     SDL_Event event;
     while(SDL_PollEvent(&event)){
-        if(event.type == SDL_EVENT_QUIT) {isRunning = false;}
+        switch(event.type){
+            case SDL_EVENT_QUIT:
+                isRunning = false;
+                break;
+            case SDL_EVENT_MOUSE_MOTION:
+                myCard->checkHover((float)event.motion.x, (float)event.motion.y);
+                break;
+        }
     }
 }
 
@@ -47,9 +58,23 @@ void Application::update(){
 void Application::render() {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
-
-    // Draw card
-    myCard->render(renderer);
-
+    myCard->render(renderer, cardTemplate);
     SDL_RenderPresent(renderer);
+}
+
+void Application::initCardTemplate(){
+    SDL_FRect rectText = { 0.0f, 0.0f, 0.0f, 0.0f};
+    myCard->getSizeCard(rectText);
+
+    cardTemplate = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rectText.w, rectText.h);
+
+    checkSDL(cardTemplate, "Texture");
+    SDL_SetRenderTarget(renderer, cardTemplate);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(renderer, &rectText);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderRect(renderer, &rectText);
+    SDL_SetRenderTarget(renderer, NULL);
 }
