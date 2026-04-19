@@ -33,7 +33,9 @@ FetchContent_MakeAvailable(SDL3)
 set(SOURCES
     src/main.cpp
     src/core/Application.cpp
-    src/core/Card.cpp
+    src/core/InputManager.cpp
+    src/core/RessourceManager.cpp
+    src/ui/Card.cpp
 )
 
 # Création de l'exécutable

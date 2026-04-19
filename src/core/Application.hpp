@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <string>
+#include "InputManager.hpp"
 
 struct card;
 
@@ -15,7 +16,7 @@ struct Application {
     void run();
 
     private:
-    void handleEvent ();
+    InputManager inputManager;
     void update ();
     void render ();
 

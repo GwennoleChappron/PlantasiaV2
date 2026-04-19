@@ -1,7 +1,8 @@
 #include <iostream>
 
 #include "Application.hpp"
-#include "Card.hpp"
+#include "InputManager.hpp"
+#include "../ui/Card.hpp"
 #include "getError.hpp"
 
 Application::Application (const std::string& title, int width, int height, Uint64 flags) {
@@ -31,25 +32,18 @@ Application::~Application(){
 
 void Application::run(){
     while(isRunning){
-        handleEvent();
+        if (inputManager.update() == true) {
+            isRunning = false;
+        }
+        float mouseX, mouseY;
+        inputManager.getMousePosition(mouseX, mouseY);
+        myCard->checkHover(mouseX, mouseY);
         update();
         render();
     }
 }
 
-void Application::handleEvent(){
-    SDL_Event event;
-    while(SDL_PollEvent(&event)){
-        switch(event.type){
-            case SDL_EVENT_QUIT:
-                isRunning = false;
-                break;
-            case SDL_EVENT_MOUSE_MOTION:
-                myCard->checkHover((float)event.motion.x, (float)event.motion.y);
-                break;
-        }
-    }
-}
+
 
 void Application::update(){
 
