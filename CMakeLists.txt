@@ -34,7 +34,7 @@ set(SOURCES
     src/main.cpp
     src/core/Application.cpp
     src/core/InputManager.cpp
-    src/core/RessourceManager.cpp
+    src/core/ResourceManager.cpp
     src/ui/Card.cpp
 )
 

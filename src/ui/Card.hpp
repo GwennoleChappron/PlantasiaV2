@@ -6,7 +6,8 @@ struct card{
     ~card();
 
     void render(SDL_Renderer* renderer, SDL_Texture* cardTemplate);
-    void getSizeCard(SDL_FRect& r){r.w = w; r.h = h;};
+    float getWidth(){return w;};
+    float getHeight(){return h;};
 
     void checkHover(float mouseX, float mouseY);
 
