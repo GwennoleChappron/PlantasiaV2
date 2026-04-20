@@ -19,6 +19,7 @@ Application::Application (const std::string& title, int width, int height, Uint6
     float cardY = (float)h / 2.0f - 30.0f;
     balconyView.createHand(5, (float)w, (float)h - 100.0f);
     resourceManager.createCardTemplate(renderer, balconyView.getWidth(), balconyView.getHeight());
+    resourceManager.createDropZoneTemplate(renderer, 100.0f, 100.0f);
     isRunning = true;
 }
 
@@ -49,6 +50,6 @@ void Application::update(){
 void Application::render() {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
-    balconyView.render(renderer, resourceManager.getCardTemplate());
+    balconyView.render(renderer, resourceManager.getCardTemplate(), resourceManager.getDropZoneTemplate());
     SDL_RenderPresent(renderer);
 }

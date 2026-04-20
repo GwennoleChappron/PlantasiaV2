@@ -37,6 +37,7 @@ set(SOURCES
     src/core/ResourceManager.cpp
     src/views/BalconyView.cpp
     src/ui/Card.cpp
+    src/ui/DropZone.cpp
 )
 
 # Création de l'exécutable

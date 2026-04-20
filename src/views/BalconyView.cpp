@@ -1,5 +1,7 @@
 #include "BalconyView.hpp"
 #include "../core/InputManager.hpp"
+#include <iostream>
+#include <vector>
 
 BalconyView::~BalconyView() {
     for (auto& c : cards) {
@@ -14,17 +16,19 @@ void BalconyView::addCard(float x, float y) {
 
 void BalconyView::update(bool isLeftMouseDown, float mouseX, float mouseY) {
     isHoveringCard(mouseX, mouseY);
-
     grabCard(isLeftMouseDown, mouseX, mouseY);
 }
 
-void BalconyView::render(SDL_Renderer* renderer, SDL_Texture* cardTemplate) {
+void BalconyView::render(SDL_Renderer* renderer, SDL_Texture* cardTemplate, SDL_Texture* dropZoneTemplate) {
+    dropZone.render(renderer, dropZoneTemplate, cardTemplate);
     for (auto& c : cards) {
         c->render(renderer, cardTemplate);
     }
 }
 
 void BalconyView::createHand(int numCards, float screenX, float screenY) {
+    dropZone.setX(screenX / 2.0f - 50.0f); // example position for drop zone
+    dropZone.setY(screenY / 2.0f - 50.0f);
     for (int i = 0; i < numCards; ++i) {
         addCard(0.0f, 0.0f); // initial position will be set later
     }
@@ -52,7 +56,14 @@ void BalconyView::grabCard(bool isLeftMouseDown, float mouseX, float mouseY) {
     if (grabbedCard) {
         grabbedCard->setPosition(mouseX - grabOffsetX, mouseY - grabOffsetY);
         if (isLeftMouseDown == false) {
-            grabbedCard = nullptr;
+            if (dropZone.isInside(mouseX, mouseY)) {
+                dropZone.addCard(grabbedCard);
+                std::erase(cards, grabbedCard);
+                grabbedCard = nullptr;
+            } else {
+                grabbedCard->setPosition(originalX, originalY);
+                grabbedCard = nullptr;
+            }
         }
     } else {
         for (int i = cards.size() - 1; i >= 0; --i) {
@@ -60,6 +71,8 @@ void BalconyView::grabCard(bool isLeftMouseDown, float mouseX, float mouseY) {
                 grabbedCard = cards[i];
                 grabOffsetX = mouseX - grabbedCard->getPositionX();
                 grabOffsetY = mouseY - grabbedCard->getPositionY();
+                originalX = grabbedCard->getPositionX();
+                originalY = grabbedCard->getPositionY();
                 break;
             }
         }
