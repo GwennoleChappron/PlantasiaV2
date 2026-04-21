@@ -18,8 +18,9 @@ Application::Application (const std::string& title, int width, int height, Uint6
     float cardX = (float)w / 2.0f - 20.0f;
     float cardY = (float)h / 2.0f - 30.0f;
     balconyView.createHand(5, (float)w, (float)h - 100.0f);
-    resourceManager.createCardTemplate(renderer, balconyView.getWidth(), balconyView.getHeight());
-    resourceManager.createDropZoneTemplate(renderer, 100.0f, 100.0f);
+    resourceManager.createTemplateFromRect(renderer, "card", balconyView.getWidth(), balconyView.getHeight(), 255, 255, 255);
+    resourceManager.createTemplateFromRect(renderer, "dropZone", 100.0f, 100.0f, 200, 0, 0);
+    resourceManager.createTemplateFromImage(renderer, "cardTemplate", "assets/WidgetsTimer.png");
     isRunning = true;
 }
 
@@ -35,9 +36,11 @@ void Application::run(){
         if (inputManager.update() == true) {
             isRunning = false;
         }
+        dt = (SDL_GetTicks() - lastUpdateTime) / 1000.0f; 
+        lastUpdateTime = SDL_GetTicks();
         float mouseX, mouseY;
         inputManager.getMousePosition(mouseX, mouseY);
-        balconyView.update(inputManager.getLeftClickState(), mouseX, mouseY);
+        balconyView.update(inputManager.getLeftClickState(), mouseX, mouseY, dt);
         update();
         render();
     }
@@ -50,6 +53,6 @@ void Application::update(){
 void Application::render() {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
-    balconyView.render(renderer, resourceManager.getCardTemplate(), resourceManager.getDropZoneTemplate());
+   balconyView.render(renderer, resourceManager.getTexture("card"), resourceManager.getTexture("dropZone"), resourceManager.getTexture("cardTemplate"));
     SDL_RenderPresent(renderer);
 }

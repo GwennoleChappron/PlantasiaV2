@@ -1,40 +1,54 @@
-#include <SDL3/SDL.h>
 #include "ResourceManager.hpp"
 #include "getError.hpp"
 
 ResourceManager::~ResourceManager() {
-    if (cardTemplate) SDL_DestroyTexture(cardTemplate);
-    if (dropZoneTemplate) SDL_DestroyTexture(dropZoneTemplate);
+    // On boucle sur toute la map pour détruire chaque texture
+    for (auto& pair : textures) {
+        if (pair.second) {
+            SDL_DestroyTexture(pair.second);
+        }
+    }
+    textures.clear();
 }
 
-void ResourceManager::createCardTemplate(SDL_Renderer* r, float w, float h) {
+void ResourceManager::createTemplateFromRect(SDL_Renderer* r, const std::string& id, float w, float h, Uint8 colorR, Uint8 colorG, Uint8 colorB) {
     renderer = r;
+    if (textures.find(id) != textures.end()) {
+        return; 
+    }
     SDL_FRect rectText = { 0.0f, 0.0f, w, h };
-    cardTemplate = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rectText.w, rectText.h);
+    SDL_Texture* newTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rectText.w, rectText.h);
 
-    checkSDL(cardTemplate, "Texture");
-    SDL_SetRenderTarget(renderer, cardTemplate);
+    checkSDL(newTexture, "Texture");
+    
+    SDL_SetRenderTarget(renderer, newTexture);
+    
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
+    
+    SDL_SetRenderDrawColor(renderer, colorR, colorG, colorB, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &rectText);
+    
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderRect(renderer, &rectText);
+    
     SDL_SetRenderTarget(renderer, NULL);
+    textures[id] = newTexture;
 }
 
-void ResourceManager::createDropZoneTemplate(SDL_Renderer* r, float w, float h) {
+void ResourceManager::createTemplateFromImage(SDL_Renderer* r, const std::string& id, const std::string& imagePath, float x, float y, float w, float h) {
     renderer = r;
-    SDL_FRect rectText = { 0.0f, 0.0f, w, h };
-    dropZoneTemplate = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rectText.w, rectText.h);
+    if (textures.find(id) != textures.end()) {
+        return; 
+    }
+    SDL_Texture* newTexture = IMG_LoadTexture(renderer, imagePath.c_str());
+    checkSDL(newTexture, "Load Texture from Image");
+    textures[id] = newTexture;
+}
 
-    checkSDL(dropZoneTemplate, "Texture");
-    SDL_SetRenderTarget(renderer, dropZoneTemplate);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderFillRect(renderer, &rectText);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderRect(renderer, &rectText);
-    SDL_SetRenderTarget(renderer, NULL);
+SDL_Texture* ResourceManager::getTexture(const std::string& id) {
+    if (textures.find(id) != textures.end()) {
+        return textures[id];
+    }
+    return nullptr;
 }

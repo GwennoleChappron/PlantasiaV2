@@ -27,4 +27,5 @@ struct Application {
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     bool isRunning = false;
+    float dt = 0.0f, lastUpdateTime = 0.0f;
 };

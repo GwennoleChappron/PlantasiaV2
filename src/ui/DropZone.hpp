@@ -1,26 +1,30 @@
 #pragma once
+#include <vector>
 #include <SDL3/SDL.h>
 #include "Card.hpp"
-#include <vector>
+#include "Widget.hpp" // Ton nouveau fichier pour le timer
 
-
-class DropZone {
-public:
-    DropZone(float x = 0.0f, float y = 0.0f) : x(x), y(y) {}
+struct DropZone {
     ~DropZone();
 
-    bool isInside(float mouseX, float mouseY) {
-        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
-    }
     void addCard(card* c);
-    void render(SDL_Renderer* renderer, SDL_Texture* dropZoneTemplate, SDL_Texture* cardTemplate);
+    void update(float dt); // Nouveau !
+    void render(SDL_Renderer* renderer, SDL_Texture* dropZoneTemplate, SDL_Texture* cardTemplate, SDL_Texture* timerTemplate);
+
     void setX(float newX) { x = newX; }
     void setY(float newY) { y = newY; }
-    float getX() { return x; }
-    float getY() { return y; }
-    float getWidth() { return width; }
-    float getHeight() { return height; }
+    
+    // Fonction mathématique pour savoir si la souris est dans la zone
+    bool isInside(float mouseX, float mouseY) {
+        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+    }
+
 private:
-    float x, y, width = 100, height = 100;
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 100.0f; // La taille de ta zone de dépôt
+    float height = 100.0f;
+    
     std::vector<card*> cards;
+    timerWidget timer; // Le timer est possédé par la zone
 };

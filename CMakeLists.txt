@@ -1,35 +1,47 @@
 cmake_minimum_required(VERSION 3.20)
 
-# Nom et version de ton projet
 project(Plantasia VERSION 1.0 LANGUAGES CXX)
 
-# On impose un standard C++ moderne (C++20 est idéal pour avoir un code propre)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF) # On désactive les extensions spécifiques aux compilateurs pour rester portable
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ---------------------------------------------------------
-# Récupération automatique de SDL3
+# Récupération de SDL3 et SDL3_image
 # ---------------------------------------------------------
 include(FetchContent)
 
-message(STATUS "Téléchargement de SDL3 en cours...")
+# Configuration globale pour les dépendances
+set(SDL_TESTS OFF CACHE BOOL "" FORCE)
+set(SDL_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(SDL_IMAGE_SAMPLES OFF CACHE BOOL "" FORCE) # Désactive les démos de SDL_image
+set(SDL_IMAGE_TESTS OFF CACHE BOOL "" FORCE)   # Désactive les tests de SDL_image
+set(SDLIMAGE_AVIF OFF CACHE BOOL "Disable AVIF support" FORCE)
+set(SDLIMAGE_WEBP OFF CACHE BOOL "Disable WEBP support" FORCE)
+set(SDLIMAGE_TIFF OFF CACHE BOOL "Disable TIFF support" FORCE)
+set(SDLIMAGE_JXL OFF CACHE BOOL "Disable JXL support" FORCE)
+
+# SDL3
 FetchContent_Declare(
     SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG        main # Tu pourras figer ça sur un tag de version précis plus tard (ex: release-3.x.x)
+    GIT_TAG main 
 )
 
-# On construit SDL3 mais on évite de compiler tous ses exemples et tests
-set(SDL_TESTS OFF CACHE BOOL "Disable SDL tests" FORCE)
-set(SDL_EXAMPLES OFF CACHE BOOL "Disable SDL examples" FORCE)
-FetchContent_MakeAvailable(SDL3)
+# SDL3_image
+FetchContent_Declare(
+    SDL3_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG main
+)
+
+# On rend les deux disponibles
+FetchContent_MakeAvailable(SDL3 SDL3_image)
 
 # ---------------------------------------------------------
-# Configuration de ton exécutable
+# Configuration de l'exécutable
 # ---------------------------------------------------------
 
-# Déclaration des fichiers sources de ton projet (pour l'instant, juste main.cpp)
 set(SOURCES
     src/main.cpp
     src/core/Application.cpp
@@ -38,10 +50,18 @@ set(SOURCES
     src/views/BalconyView.cpp
     src/ui/Card.cpp
     src/ui/DropZone.cpp
+    src/ui/Widget.cpp
 )
 
-# Création de l'exécutable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Lier la bibliothèque SDL3 à ton exécutable
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+# /!\ AJOUT ICI : On lie SDL3 ET SDL3_image
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    SDL3::SDL3 
+    SDL3_image::SDL3_image
+)
+
+# Copier les assets dans le dossier de build (très utile sur Windows)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/src/assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)

@@ -1,19 +1,19 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <map>
+#include <string>
 
 class ResourceManager {
-    public:
+public:
     ~ResourceManager();
-    void createCardTemplate(SDL_Renderer* r, float w, float h);
-    SDL_Texture* getCardTemplate() { return cardTemplate; };
 
-    void createDropZoneTemplate(SDL_Renderer* r, float w, float h);
-    SDL_Texture* getDropZoneTemplate() { return dropZoneTemplate; };
+    void createTemplateFromRect(SDL_Renderer* r, const std::string& id, float w, float h, Uint8 colorR, Uint8 colorG, Uint8 colorB);
+    void createTemplateFromImage(SDL_Renderer* r, const std::string& id, const std::string& imagePath, float x = 0.0f, float y = 0.0f, float w = 0.0f, float h = 0.0f);
 
+    SDL_Texture* getTexture(const std::string& id);
 
-    private:
-    SDL_Texture* cardTemplate = nullptr;
-    SDL_Texture* dropZoneTemplate = nullptr;
-
+private:
+    std::map<std::string, SDL_Texture*> textures;
     SDL_Renderer* renderer = nullptr;
 };
