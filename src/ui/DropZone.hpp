@@ -26,5 +26,5 @@ private:
     float height = 100.0f;
     
     std::vector<card*> cards;
-    timerWidget timer; // Le timer est possédé par la zone
+    std::vector<timerWidget> timers; // Les timers sont possédés par la zone
 };

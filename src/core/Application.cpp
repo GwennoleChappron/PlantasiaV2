@@ -20,7 +20,7 @@ Application::Application (const std::string& title, int width, int height, Uint6
     balconyView.createHand(5, (float)w, (float)h - 100.0f);
     resourceManager.createTemplateFromRect(renderer, "card", balconyView.getWidth(), balconyView.getHeight(), 255, 255, 255);
     resourceManager.createTemplateFromRect(renderer, "dropZone", 100.0f, 100.0f, 200, 0, 0);
-    resourceManager.createTemplateFromImage(renderer, "cardTemplate", "assets/WidgetsTimer.png");
+    resourceManager.createTemplateFromImage(renderer, "cardTemplate", "assets/sprites/WidgetsTimer.png");
     isRunning = true;
 }
 

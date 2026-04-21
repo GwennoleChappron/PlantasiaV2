@@ -81,10 +81,10 @@ void BalconyView::grabCard(bool isLeftMouseDown, float mouseX, float mouseY) {
         for (int i = cards.size() - 1; i >= 0; --i) {
             if (cards[i]->containsPoint(mouseX, mouseY) && isLeftMouseDown == true) {
                 grabbedCard = cards[i];
-                grabOffsetX = mouseX - grabbedCard->getPositionX();
-                grabOffsetY = mouseY - grabbedCard->getPositionY();
-                originalX = grabbedCard->getPositionX();
-                originalY = grabbedCard->getPositionY();
+                grabOffsetX = mouseX - grabbedCard->getX();
+                grabOffsetY = mouseY - grabbedCard->getY();
+                originalX = grabbedCard->getX();
+                originalY = grabbedCard->getY();
                 break;
             }
         }

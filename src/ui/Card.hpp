@@ -12,8 +12,8 @@ struct card{
     bool containsPoint(float mouseX, float mouseY);
     void setPosition(float x, float y);
     void setHover(bool state) { isHovered = state; };
-    float getPositionX() { return rect.x; };
-    float getPositionY() { return rect.y; };
+    float getX() { return rect.x; };
+    float getY() { return rect.y; };
 
     private:
     // card immutable properties

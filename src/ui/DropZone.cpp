@@ -9,14 +9,25 @@ DropZone::~DropZone() {
 
 void DropZone::addCard(card* c) {
     cards.push_back(c);
-    timer.setPosition(x + (width / 2.0f) - 16.0f, y + (height / 2.0f) - 16.0f);
+    timers.emplace_back();
+    timers.back().setPosition(c->getX()+c->getWidth()/2.0f-16.0f, c->getY()+c->getHeight()/2.0f-16.0f); // Positionne le timer au centre de la carte
 }
 
 void DropZone::update(float dt) {
-    if (!cards.empty()) {
+    std::erase_if(timers, [this, dt](auto& timer) {
         timer.update(dt);
-        // Si le temps est écoulé, tu pourras supprimer la carte ici !
-    }
+        
+        if (timer.isFinished()) {
+            if (!this->cards.empty()) {
+                card* c = this->cards.front();
+                delete c;
+                this->cards.erase(this->cards.begin());
+                
+            }
+            return true; 
+        }
+        return false; 
+    });
 }
 
 void DropZone::render(SDL_Renderer* renderer, SDL_Texture* dropZoneTemplate, SDL_Texture* cardTemplate, SDL_Texture* timerTemplate) {
@@ -26,6 +37,8 @@ void DropZone::render(SDL_Renderer* renderer, SDL_Texture* dropZoneTemplate, SDL
         c->render(renderer, cardTemplate);
     }
     if (!cards.empty()) {
-        timer.render(renderer, timerTemplate);
+        for (auto& timer : timers) {
+            timer.render(renderer, timerTemplate);
+        }
     }
 }
