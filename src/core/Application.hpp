@@ -4,6 +4,7 @@
 #include "InputManager.hpp"
 #include "ResourceManager.hpp"
 #include "../views/BalconyView.hpp"
+#include "PlantManager.hpp"
 
 struct card;
 
@@ -18,6 +19,7 @@ struct Application {
     void run();
 
     private:
+    PlantManager plantManager;
     InputManager inputManager;
     ResourceManager resourceManager;
     BalconyView balconyView;

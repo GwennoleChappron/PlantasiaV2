@@ -1,4 +1,6 @@
 #include "DropZone.hpp"
+#include "../data/PlantProfile.hpp"
+#include <algorithm>
 
 DropZone::~DropZone() {
     for (auto& c : cards) {
@@ -20,6 +22,7 @@ void DropZone::update(float dt) {
         if (timer.isFinished()) {
             if (!this->cards.empty()) {
                 card* c = this->cards.front();
+                c->profile->needsAttention = false;
                 delete c;
                 this->cards.erase(this->cards.begin());
                 

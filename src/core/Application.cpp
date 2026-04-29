@@ -17,7 +17,8 @@ Application::Application (const std::string& title, int width, int height, Uint6
     SDL_GetWindowSize(window, &w, &h);
     float cardX = (float)w / 2.0f - 20.0f;
     float cardY = (float)h / 2.0f - 30.0f;
-    balconyView.createHand(5, (float)w, (float)h - 100.0f);
+    std::vector<PlantProfile*> thirstyPlants = plantManager.needingAttention();
+    balconyView.createHand(thirstyPlants, (float)w, (float)h - 100.0f);
     resourceManager.createTemplateFromRect(renderer, "card", balconyView.getWidth(), balconyView.getHeight(), 255, 255, 255);
     resourceManager.createTemplateFromRect(renderer, "dropZone", 100.0f, 100.0f, 200, 0, 0);
     resourceManager.createTemplateFromImage(renderer, "cardTemplate", "assets/sprites/WidgetsTimer.png");

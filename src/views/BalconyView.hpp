@@ -7,8 +7,6 @@
 
 struct BalconyView {
     ~BalconyView();
-
-    void addCard(float x, float y);
     
     // Ajout du paramètre dt
     void update(bool isLeftMouseDown, float mouseX, float mouseY, float dt);
@@ -25,7 +23,7 @@ struct BalconyView {
         return cards[0]->getHeight();
     };
     
-    void createHand(int numCards, float screenX, float screenY);
+    void createHand(const std::vector<PlantProfile*>& plantsToWater, float screenX, float screenY);
 
 private:
     DropZone dropZone;

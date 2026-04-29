@@ -1,8 +1,10 @@
 #pragma once
 #include <SDL3/SDL.h>
 
+struct PlantProfile;
+
 struct card{
-    card (float x, float y);
+    card (float x, float y, PlantProfile* profile);
     ~card();
 
     void render(SDL_Renderer* renderer, SDL_Texture* cardTemplate);
@@ -15,6 +17,8 @@ struct card{
     float getX() { return rect.x; };
     float getY() { return rect.y; };
 
+    PlantProfile* profile = nullptr; // Pointer to the plant this card represents
+
     private:
     // card immutable properties
     float w = 40.0f; // width card
@@ -23,4 +27,7 @@ struct card{
 
     // card state
     bool isHovered = false;
+
+    // Card specific properties
+    
 };

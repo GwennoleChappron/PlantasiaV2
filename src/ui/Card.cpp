@@ -1,8 +1,9 @@
 #include "Card.hpp"
 #include <iostream>
 
-card::card(float x, float y){
+card::card(float x, float y, PlantProfile* p) {
     rect = {x, y, w, h};
+    profile = p;
 }
 
 card::~card(){
